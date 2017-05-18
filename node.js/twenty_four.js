@@ -21,7 +21,11 @@ function* permutation(ret, lst) {
 }
 
 const formatEq = (op, lst, bracket) => {
-  let sorted = lst.sort((a, b) => eval(a) === eval(b) ? a.length > b.length : eval(a) < eval(b))
+  let sorted = lst.sort((a, b) => {
+    if (['0-', '1/'].includes(a.slice(0, 2)) !== ['0-', '1/'].includes(b.slice(0, 2))) return ['0-', '1/'].includes(a.slice(0, 2))
+    let evalA = eval(a), evalB = eval(b)
+    return evalA === evalB ? a.length > b.length : evalA < evalB
+  })
   let ret = sorted.reduce((a, b) => {
     if (op === '+' && b.slice(0, 2) === '0-') return a + ' - ' + b.slice(2)
     else if (op === '*' && b.slice(0, 2) === '1/') return a + ' / ' + b.slice(2)
@@ -96,6 +100,7 @@ for (let item of permutation([], Array.prototype.concat(args, opLst))) {
       let eq = formatEq(result.op, result.lst)
       if (out.filter(item => item === eq).length === 0) {
         out.push(eq)
+        // console.log(result)
         console.log(eq + ' = 24')
       }
     }
