@@ -66,7 +66,7 @@ const divide = (x, y) => {
     value: 1 / y.value,
     lst: (y.op === "*" || typeof(y.op) === 'undefined') ?
       y.lst.map(item => item.slice(0, 2) === '1/' ? item.slice(2) : '1/' + item) :
-      ["1/" + formatEq(y.op, y.lst)]
+      ["1/" + formatEq(y.op, y.lst, true)]
   }
   return multiply(x, newY)
 }
